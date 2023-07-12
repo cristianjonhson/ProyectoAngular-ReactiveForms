@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsersComponent } from './users.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -8,10 +9,12 @@ import { UsersComponent } from './users.component';
     UsersComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule, // for reactive forms
   ],
   exports:[
-    UsersComponent,
+    UsersComponent, 
   ]
 })
 export class UsersModule { }
