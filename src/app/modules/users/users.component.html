@@ -1,0 +1,141 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <div class="card">
+        <div class="card-body">
+          <h2>Formulario de Usuario</h2>
+          <div class="row">
+            <form [formGroup]="userModel" class="row col-8 g-3">
+
+                <div class="col-md-6">
+                    <label for="inputFullName" class="form-label">Nombre completo</label>
+                    <input
+                      formControlName="fullName"
+                      type="text"
+                      class="form-control"
+                      id="inputFullName"
+                      [class.is-invalid]="fullNameControl.touched && fullNameControl.invalid"
+                      required
+                    />
+                    <div *ngIf="fullNameControl.touched && fullNameControl.invalid" class="invalid-feedback">
+                      El nombre completo es inválido
+                    </div>
+                  </div>
+                  
+
+              <div class="col-md-6">
+                <label for="inputBirthDate" class="form-label">Fecha de nacimiento</label>
+                <input
+                  formControlName="birthDate"
+                  type="date"
+                  class="form-control"
+                  id="inputBirthDate"
+                  required
+                />
+                <div *ngIf="birthDateControl.touched && birthDateControl.invalid" class="invalid-feedback">
+                  El campo es requerido
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">Email</label>
+                <input
+                  formControlName="email"
+                  type="email"
+                  class="form-control"
+                  id="inputEmail4"
+                  [class.is-invalid]="emailControl.touched && emailControl.invalid"
+                  required
+                />
+                <div *ngIf="emailControl.touched && emailControl.invalid" class="invalid-feedback">
+                  Ingresa un email válido
+                </div>
+              </div>
+              
+              <div class="col-md-6"> 
+                <label for="regionSelect" class="form-label">Región:</label>
+                <select id="regionSelect" class="form-select" [(ngModel)]="selectedRegion" required>
+                  <option value="">Seleccionar Región</option>
+                  <option *ngFor="let region of regions" [value]="region.id">{{ region.name }}</option>
+                </select>
+                <div *ngIf="regionControl.touched && regionControl.invalid" class="invalid-feedback">
+                  Selecciona una región válida
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Password</label>
+                <input [formControl]="passwordControl" type="password" class="form-control" id="inputPassword4" />
+              </div>
+
+              <div class="col-md-6">
+                <label for="inputCity" class="form-label">City</label>
+                <input
+                  formControlName="city"
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="cityControl.touched && cityControl.invalid"
+                  id="inputCity"
+                  required
+                />
+                <div *ngIf="cityControl.touched && cityControl.invalid" class="invalid-feedback">
+                  El campo es requerido
+                </div>
+              </div>
+
+              <div class="col-6">
+                <label for="inputZip" class="form-label">Zip</label>
+                <input type="text" class="form-control" id="inputZip" formControlName="zip" required pattern="[0-9]{5}" />
+                <div *ngIf="userModel.get('zip')?.touched && userModel.get('zip')?.invalid" class="invalid-feedback">
+                  Ingresa un código ZIP válido (5 dígitos numéricos)
+                </div>
+              </div>
+              
+              
+           
+
+              <div class="col-12">
+                <div class="mb-3">
+                  <label for="inputAddress" class="form-label">Addresses</label>
+                  <div
+                    *ngFor="let addressFormGroup of addresesFormArray.controls; let i = index"
+                    class="input-group mb-3"
+                  >
+                    <ng-container [formGroup]="addressFormGroup">
+                      <input
+                        formControlName="address"
+                        type="text"
+                        class="form-control"
+                        id="inputAddress"
+                        placeholder="1234 Main St"
+                        required
+                      />
+                      <div *ngIf="addressFormGroup.controls.address.touched && addressFormGroup.controls.address.invalid" class="invalid-feedback">
+                        El campo es requerido
+                      </div>
+                      <button *ngIf="i > 0" (click)="deleteFormGroupFromAddressesFormArray(i)" class="btn btn-danger" type="button" id="button-addon2">X</button>
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="d-grid gap-2">
+                  <button (click)="addAddressControl()" class="btn btn-primary" type="button">
+                    Agregar dirección
+                  </button>
+                </div>
+              </div>
+
+    
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+              </div>
+            </form>
+            <div class="col-4">
+              <h5>Valor</h5>
+              <pre>{{ userModel.value | json }}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
