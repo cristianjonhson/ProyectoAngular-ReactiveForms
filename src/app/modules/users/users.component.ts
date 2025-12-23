@@ -136,4 +136,18 @@ export class UsersComponent  {
   deleteFormGroupFromAddressesFormArray(index: number): void {
     this.addresesFormArray.removeAt(index);
   }
+
+  onSubmit(): void {
+    if (this.userModel.valid) {
+      console.log('Formulario enviado:', this.userModel.value);
+      alert('Formulario enviado exitosamente! Revisa la consola para ver los datos.');
+    } else {
+      // Marcar todos los campos como touched para mostrar los errores
+      Object.keys(this.userModel.controls).forEach(key => {
+        const control = this.userModel.get(key);
+        control?.markAsTouched();
+      });
+      alert('Por favor completa todos los campos requeridos correctamente.');
+    }
+  }
 }

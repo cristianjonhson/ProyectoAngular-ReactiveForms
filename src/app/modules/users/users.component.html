@@ -5,7 +5,7 @@
         <div class="card-body">
           <h2>Formulario de Usuario</h2>
           <div class="row">
-            <form [formGroup]="userModel" class="row col-8 g-3">
+            <form [formGroup]="userModel" class="row g-3" (ngSubmit)="onSubmit()">
 
                 <div class="col-md-6">
                     <label for="inputFullName" class="form-label">Nombre completo</label>
@@ -157,10 +157,10 @@
                 <button type="submit" class="btn btn-primary">Enviar</button>
               </div>
             </form>
-            <div class="col-4">
+            <!-- <div class="col-4">
               <h5>Valor</h5>
               <pre>{{ userModel.value | json }}</pre>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
