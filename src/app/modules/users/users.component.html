@@ -18,7 +18,8 @@
                       required
                     />
                     <div *ngIf="fullNameControl.touched && fullNameControl.invalid" class="invalid-feedback">
-                      El nombre completo es inválido
+                      <span *ngIf="fullNameControl.errors?.['required']">El nombre completo es requerido</span>
+                      <span *ngIf="fullNameControl.errors?.['invalidName']">Solo se permiten letras y espacios</span>
                     </div>
                   </div>
                   
@@ -30,10 +31,11 @@
                   type="date"
                   class="form-control"
                   id="inputBirthDate"
+                  [class.is-invalid]="birthDateControl.touched && birthDateControl.invalid"
                   required
                 />
                 <div *ngIf="birthDateControl.touched && birthDateControl.invalid" class="invalid-feedback">
-                  El campo es requerido
+                  La fecha de nacimiento es requerida
                 </div>
               </div>
 
@@ -48,28 +50,45 @@
                   required
                 />
                 <div *ngIf="emailControl.touched && emailControl.invalid" class="invalid-feedback">
-                  Ingresa un email válido
+                  <span *ngIf="emailControl.errors?.['required']">El email es requerido</span>
+                  <span *ngIf="emailControl.errors?.['email']">Ingresa un email válido</span>
                 </div>
               </div>
               
               <div class="col-md-6"> 
-                <label for="regionSelect" class="form-label">Región:</label>
-                <select id="regionSelect" class="form-select" [(ngModel)]="selectedRegion" required>
-                  <option value="">Seleccionar Región</option>
-                  <option *ngFor="let region of regions" [value]="region.id">{{ region.name }}</option>
+                <label for="regionSelect" class="form-label">Región</label>
+                <select 
+                  id="regionSelect" 
+                  class="form-select" 
+                  formControlName="regions"
+                  [class.is-invalid]="regionControl.touched && regionControl.invalid"
+                  required
+                >
+                  <option [ngValue]="null">Seleccionar Región</option>
+                  <option *ngFor="let region of regions" [ngValue]="region.id">{{ region.name }}</option>
                 </select>
                 <div *ngIf="regionControl.touched && regionControl.invalid" class="invalid-feedback">
-                  Selecciona una región válida
+                  La región es requerida
                 </div>
               </div>
 
               <div class="col-md-6">
-                <label for="inputPassword4" class="form-label">Password</label>
-                <input [formControl]="passwordControl" type="password" class="form-control" id="inputPassword4" />
+                <label for="inputPassword4" class="form-label">Contraseña</label>
+                <input 
+                  formControlName="password"
+                  type="password" 
+                  class="form-control" 
+                  id="inputPassword4"
+                  [class.is-invalid]="passwordControl.touched && passwordControl.invalid"
+                  required
+                />
+                <div *ngIf="passwordControl.touched && passwordControl.invalid" class="invalid-feedback">
+                  La contraseña es requerida
+                </div>
               </div>
 
               <div class="col-md-6">
-                <label for="inputCity" class="form-label">City</label>
+                <label for="inputCity" class="form-label">Ciudad</label>
                 <input
                   formControlName="city"
                   type="text"
@@ -79,15 +98,24 @@
                   required
                 />
                 <div *ngIf="cityControl.touched && cityControl.invalid" class="invalid-feedback">
-                  El campo es requerido
+                  La ciudad es requerida
                 </div>
               </div>
 
               <div class="col-6">
-                <label for="inputZip" class="form-label">Zip</label>
-                <input type="text" class="form-control" id="inputZip" formControlName="zip" required pattern="[0-9]{5}" />
-                <div *ngIf="userModel.get('zip')?.touched && userModel.get('zip')?.invalid" class="invalid-feedback">
-                  Ingresa un código ZIP válido (5 dígitos numéricos)
+                <label for="inputZip" class="form-label">Código Postal</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="inputZip" 
+                  formControlName="zip"
+                  [class.is-invalid]="zipControl.touched && zipControl.invalid"
+                  required 
+                  pattern="[0-9]{5}" 
+                />
+                <div *ngIf="zipControl.touched && zipControl.invalid" class="invalid-feedback">
+                  <span *ngIf="zipControl.errors?.['required']">El código postal es requerido</span>
+                  <span *ngIf="zipControl.errors?.['pattern']">Debe ser un código de 5 dígitos</span>
                 </div>
               </div>
               
@@ -96,7 +124,7 @@
 
               <div class="col-12">
                 <div class="mb-3">
-                  <label for="inputAddress" class="form-label">Addresses</label>
+                  <label for="inputAddress" class="form-label">Direcciones</label>
                   <div
                     *ngFor="let addressFormGroup of addresesFormArray.controls; let i = index"
                     class="input-group mb-3"
@@ -106,20 +134,20 @@
                         formControlName="address"
                         type="text"
                         class="form-control"
-                        id="inputAddress"
-                        placeholder="1234 Main St"
+                        [class.is-invalid]="addressFormGroup.controls.address.touched && addressFormGroup.controls.address.invalid"
+                        placeholder="Ej: Av. Libertador 1234"
                         required
                       />
+                      <button *ngIf="i > 0" (click)="deleteFormGroupFromAddressesFormArray(i)" class="btn btn-danger" type="button" title="Eliminar dirección">×</button>
                       <div *ngIf="addressFormGroup.controls.address.touched && addressFormGroup.controls.address.invalid" class="invalid-feedback">
-                        El campo es requerido
+                        La dirección es requerida
                       </div>
-                      <button *ngIf="i > 0" (click)="deleteFormGroupFromAddressesFormArray(i)" class="btn btn-danger" type="button" id="button-addon2">X</button>
                     </ng-container>
                   </div>
                 </div>
                 <div class="d-grid gap-2">
-                  <button (click)="addAddressControl()" class="btn btn-primary" type="button">
-                    Agregar dirección
+                  <button (click)="addAddressControl()" class="btn btn-secondary" type="button">
+                    + Agregar dirección
                   </button>
                 </div>
               </div>

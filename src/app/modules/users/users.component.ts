@@ -56,12 +56,6 @@ export class UsersComponent  {
     { id: 12, name: 'Magallanes' }
   ];
 
- 
-
-  selectedRegion: number | undefined;
- 
-
-
   /**
    * FormControl
    * Manejar el valor de una propiedad en especifico.
@@ -72,8 +66,8 @@ export class UsersComponent  {
   cityControl = new FormControl('', [Validators.required]);
   fullNameControl = new FormControl('', [Validators.required, nameValidator]);
   zipControl = new FormControl('', [Validators.required, Validators.pattern('[0-9]{5}')]);
-  birthDateControl = new FormControl<Date | null>(null);
-  regionControl = new FormControl<number | null>(null);
+  birthDateControl = new FormControl<Date | null>(null, [Validators.required]);
+  regionControl = new FormControl<number | null>(null, [Validators.required]);
 
   
 
@@ -91,7 +85,7 @@ export class UsersComponent  {
   // Que va a ser de tipo FromControl<string | null>
   addresesFormArray = new FormArray<FormGroup<AddressFormGroup>>([
     new FormGroup({
-      address: new FormControl(''),
+      address: new FormControl('', [Validators.required]),
     }),
   ]);
 
@@ -121,7 +115,7 @@ export class UsersComponent  {
   addAddressControl(): void {
     this.addresesFormArray.push(
       this.fb.group({
-        address: [''],
+        address: ['', [Validators.required]],
       })
     )
   }
