@@ -1,5 +1,6 @@
 import { Component} from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 interface AddressFormGroup {
   address: FormControl<string | null>;
@@ -135,5 +136,51 @@ export class UsersComponent  {
 
   deleteFormGroupFromAddressesFormArray(index: number): void {
     this.addresesFormArray.removeAt(index);
+  }
+
+  onSubmit(): void {
+    if (this.userModel.valid) {
+      console.log('Formulario enviado:', this.userModel.value);
+      Swal.fire({
+        icon: 'success',
+        title: '¡Éxito!',
+        text: 'Formulario enviado exitosamente. Revisa la consola para ver los datos.',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#28a745'
+      });
+    } else {
+      // Marcar todos los campos como touched para mostrar los errores
+      this.markFormGroupTouched(this.userModel);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de validación',
+        text: 'Por favor completa todos los campos requeridos correctamente.',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#dc3545'
+      });
+    }
+  }
+
+  /**
+   * Marca todos los controles del formulario como touched
+   * Incluyendo controles anidados en FormArray y FormGroup
+   */
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.markAsTouched();
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach(arrayControl => {
+          if (arrayControl instanceof FormGroup) {
+            this.markFormGroupTouched(arrayControl);
+          } else {
+            arrayControl.markAsTouched();
+          }
+        });
+      }
+    });
   }
 }

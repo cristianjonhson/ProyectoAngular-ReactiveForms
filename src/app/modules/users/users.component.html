@@ -5,7 +5,7 @@
         <div class="card-body">
           <h2>Formulario de Usuario</h2>
           <div class="row">
-            <form [formGroup]="userModel" class="row col-8 g-3">
+            <form [formGroup]="userModel" class="row g-3" (ngSubmit)="onSubmit()">
 
                 <div class="col-md-6">
                     <label for="inputFullName" class="form-label">Nombre completo</label>
@@ -15,7 +15,6 @@
                       class="form-control"
                       id="inputFullName"
                       [class.is-invalid]="fullNameControl.touched && fullNameControl.invalid"
-                      required
                     />
                     <div *ngIf="fullNameControl.touched && fullNameControl.invalid" class="invalid-feedback">
                       <span *ngIf="fullNameControl.errors?.['required']">El nombre completo es requerido</span>
@@ -32,7 +31,6 @@
                   class="form-control"
                   id="inputBirthDate"
                   [class.is-invalid]="birthDateControl.touched && birthDateControl.invalid"
-                  required
                 />
                 <div *ngIf="birthDateControl.touched && birthDateControl.invalid" class="invalid-feedback">
                   La fecha de nacimiento es requerida
@@ -47,7 +45,6 @@
                   class="form-control"
                   id="inputEmail4"
                   [class.is-invalid]="emailControl.touched && emailControl.invalid"
-                  required
                 />
                 <div *ngIf="emailControl.touched && emailControl.invalid" class="invalid-feedback">
                   <span *ngIf="emailControl.errors?.['required']">El email es requerido</span>
@@ -62,7 +59,6 @@
                   class="form-select" 
                   formControlName="regions"
                   [class.is-invalid]="regionControl.touched && regionControl.invalid"
-                  required
                 >
                   <option [ngValue]="null">Seleccionar Región</option>
                   <option *ngFor="let region of regions" [ngValue]="region.id">{{ region.name }}</option>
@@ -80,7 +76,6 @@
                   class="form-control" 
                   id="inputPassword4"
                   [class.is-invalid]="passwordControl.touched && passwordControl.invalid"
-                  required
                 />
                 <div *ngIf="passwordControl.touched && passwordControl.invalid" class="invalid-feedback">
                   La contraseña es requerida
@@ -95,7 +90,6 @@
                   class="form-control"
                   [class.is-invalid]="cityControl.touched && cityControl.invalid"
                   id="inputCity"
-                  required
                 />
                 <div *ngIf="cityControl.touched && cityControl.invalid" class="invalid-feedback">
                   La ciudad es requerida
@@ -110,8 +104,6 @@
                   id="inputZip" 
                   formControlName="zip"
                   [class.is-invalid]="zipControl.touched && zipControl.invalid"
-                  required 
-                  pattern="[0-9]{5}" 
                 />
                 <div *ngIf="zipControl.touched && zipControl.invalid" class="invalid-feedback">
                   <span *ngIf="zipControl.errors?.['required']">El código postal es requerido</span>
@@ -136,7 +128,6 @@
                         class="form-control"
                         [class.is-invalid]="addressFormGroup.controls.address.touched && addressFormGroup.controls.address.invalid"
                         placeholder="Ej: Av. Libertador 1234"
-                        required
                       />
                       <button *ngIf="i > 0" (click)="deleteFormGroupFromAddressesFormArray(i)" class="btn btn-danger" type="button" title="Eliminar dirección">×</button>
                       <div *ngIf="addressFormGroup.controls.address.touched && addressFormGroup.controls.address.invalid" class="invalid-feedback">
@@ -157,10 +148,10 @@
                 <button type="submit" class="btn btn-primary">Enviar</button>
               </div>
             </form>
-            <div class="col-4">
+            <!-- <div class="col-4">
               <h5>Valor</h5>
               <pre>{{ userModel.value | json }}</pre>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
