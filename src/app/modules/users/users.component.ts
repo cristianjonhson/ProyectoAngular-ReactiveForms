@@ -1,5 +1,6 @@
 import { Component} from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 interface AddressFormGroup {
   address: FormControl<string | null>;
@@ -140,14 +141,26 @@ export class UsersComponent  {
   onSubmit(): void {
     if (this.userModel.valid) {
       console.log('Formulario enviado:', this.userModel.value);
-      alert('Formulario enviado exitosamente! Revisa la consola para ver los datos.');
+      Swal.fire({
+        icon: 'success',
+        title: '¡Éxito!',
+        text: 'Formulario enviado exitosamente. Revisa la consola para ver los datos.',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#28a745'
+      });
     } else {
       // Marcar todos los campos como touched para mostrar los errores
       Object.keys(this.userModel.controls).forEach(key => {
         const control = this.userModel.get(key);
         control?.markAsTouched();
       });
-      alert('Por favor completa todos los campos requeridos correctamente.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de validación',
+        text: 'Por favor completa todos los campos requeridos correctamente.',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#dc3545'
+      });
     }
   }
 }
