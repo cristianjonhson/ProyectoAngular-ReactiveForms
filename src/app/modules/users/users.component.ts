@@ -150,10 +150,7 @@ export class UsersComponent  {
       });
     } else {
       // Marcar todos los campos como touched para mostrar los errores
-      Object.keys(this.userModel.controls).forEach(key => {
-        const control = this.userModel.get(key);
-        control?.markAsTouched();
-      });
+      this.markFormGroupTouched(this.userModel);
       Swal.fire({
         icon: 'error',
         title: 'Error de validación',
@@ -162,5 +159,28 @@ export class UsersComponent  {
         confirmButtonColor: '#dc3545'
       });
     }
+  }
+
+  /**
+   * Marca todos los controles del formulario como touched
+   * Incluyendo controles anidados en FormArray y FormGroup
+   */
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.markAsTouched();
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach(arrayControl => {
+          if (arrayControl instanceof FormGroup) {
+            this.markFormGroupTouched(arrayControl);
+          } else {
+            arrayControl.markAsTouched();
+          }
+        });
+      }
+    });
   }
 }
