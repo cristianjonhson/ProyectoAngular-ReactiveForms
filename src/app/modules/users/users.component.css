@@ -1,0 +1,88 @@
+.user-card {
+  border: 0;
+  border-radius: 1.5rem;
+  box-shadow: 0 1.5rem 4rem rgba(2, 6, 23, 0.35);
+}
+
+.form-header {
+  margin-bottom: 2rem;
+}
+
+.eyebrow {
+  color: #2563eb;
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+h1 {
+  color: #0f172a;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.form-header p,
+.section-help,
+.form-status {
+  color: #64748b;
+}
+
+.section-title {
+  border-top: 1px solid #e2e8f0;
+  color: #1e293b;
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 0;
+  padding-top: 1.25rem;
+}
+
+.form-label {
+  color: #334155;
+  font-weight: 700;
+}
+
+.form-control,
+.form-select,
+.btn {
+  border-radius: 0.8rem;
+}
+
+.date-error {
+  display: block;
+}
+
+.date-input-group .btn {
+  border-bottom-right-radius: 0.8rem;
+  border-top-right-radius: 0.8rem;
+}
+
+.address-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.form-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.form-actions .btn {
+  min-width: 12rem;
+}
+
+@media (max-width: 576px) {
+  .form-actions .btn,
+  .form-status {
+    width: 100%;
+  }
+}
