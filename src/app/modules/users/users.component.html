@@ -1,160 +1,222 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-8">
-      <div class="card">
-        <div class="card-body">
-          <h2>Formulario de Usuario</h2>
-          <div class="row">
-            <form [formGroup]="userModel" class="row g-3" (ngSubmit)="onSubmit()">
+<div class="row justify-content-center">
+  <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+    <section class="card user-card" aria-labelledby="userFormTitle">
+      <div class="card-body p-4 p-md-5">
+        <div class="form-header">
+          <span class="eyebrow">Reactive Forms</span>
+          <h1 id="userFormTitle">Formulario de usuario</h1>
+          <p>Completa los datos para registrar un usuario. Todos los campos son obligatorios.</p>
+        </div>
 
-                <div class="col-md-6">
-                    <label for="inputFullName" class="form-label">Nombre completo</label>
-                    <input
-                      formControlName="fullName"
-                      type="text"
-                      class="form-control"
-                      id="inputFullName"
-                      [class.is-invalid]="fullNameControl.touched && fullNameControl.invalid"
-                    />
-                    <div *ngIf="fullNameControl.touched && fullNameControl.invalid" class="invalid-feedback">
-                      <span *ngIf="fullNameControl.errors?.['required']">El nombre completo es requerido</span>
-                      <span *ngIf="fullNameControl.errors?.['invalidName']">Solo se permiten letras y espacios</span>
-                    </div>
-                  </div>
-                  
+        <form [formGroup]="userModel" class="row g-4" (ngSubmit)="onSubmit()" novalidate>
+          <div class="col-12">
+            <h2 class="section-title">Datos personales</h2>
+          </div>
 
-              <div class="col-md-6">
-                <label for="inputBirthDate" class="form-label">Fecha de nacimiento</label>
+          <div class="col-12 col-md-6">
+            <label for="inputFullName" class="form-label">Nombre completo</label>
+            <input
+              formControlName="fullName"
+              type="text"
+              class="form-control"
+              id="inputFullName"
+              placeholder="Ej: Ana Pérez"
+              autocomplete="name"
+              aria-describedby="fullNameHelp fullNameError"
+              [attr.aria-invalid]="fullNameControl.touched && fullNameControl.invalid"
+              [class.is-invalid]="fullNameControl.touched && fullNameControl.invalid"
+            />
+            <div id="fullNameHelp" class="form-text">Usa solo letras y espacios.</div>
+            <div *ngIf="fullNameControl.touched && fullNameControl.invalid" id="fullNameError" class="invalid-feedback">
+              <span *ngIf="fullNameControl.errors?.['required']">El nombre completo es obligatorio.</span>
+              <span *ngIf="fullNameControl.errors?.['invalidName']">Solo se permiten letras y espacios.</span>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label for="inputBirthDate" class="form-label">Fecha de nacimiento</label>
+            <input
+              formControlName="birthDate"
+              type="date"
+              class="form-control"
+              id="inputBirthDate"
+              [max]="maxBirthDate"
+              aria-describedby="birthDateError"
+              [attr.aria-invalid]="birthDateControl.touched && birthDateControl.invalid"
+              [class.is-invalid]="birthDateControl.touched && birthDateControl.invalid"
+            />
+            <div *ngIf="birthDateControl.touched && birthDateControl.invalid" id="birthDateError" class="invalid-feedback">
+              La fecha de nacimiento es obligatoria.
+            </div>
+          </div>
+
+          <div class="col-12">
+            <h2 class="section-title">Credenciales</h2>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label for="inputEmail" class="form-label">Correo electrónico</label>
+            <input
+              formControlName="email"
+              type="email"
+              class="form-control"
+              id="inputEmail"
+              placeholder="nombre@correo.com"
+              autocomplete="email"
+              aria-describedby="emailError"
+              [attr.aria-invalid]="emailControl.touched && emailControl.invalid"
+              [class.is-invalid]="emailControl.touched && emailControl.invalid"
+            />
+            <div *ngIf="emailControl.touched && emailControl.invalid" id="emailError" class="invalid-feedback">
+              <span *ngIf="emailControl.errors?.['required']">El correo electrónico es obligatorio.</span>
+              <span *ngIf="emailControl.errors?.['email']">Ingresa un correo electrónico válido.</span>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label for="inputPassword" class="form-label">Contraseña</label>
+            <div class="input-group has-validation">
+              <input
+                formControlName="password"
+                [type]="showPassword ? 'text' : 'password'"
+                class="form-control"
+                id="inputPassword"
+                autocomplete="new-password"
+                minlength="8"
+                aria-describedby="passwordHelp passwordError"
+                [attr.aria-invalid]="passwordControl.touched && passwordControl.invalid"
+                [class.is-invalid]="passwordControl.touched && passwordControl.invalid"
+              />
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                (click)="togglePasswordVisibility()"
+                [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+              >
+                {{ showPassword ? 'Ocultar' : 'Mostrar' }}
+              </button>
+              <div *ngIf="passwordControl.touched && passwordControl.invalid" id="passwordError" class="invalid-feedback">
+                <span *ngIf="passwordControl.errors?.['required']">La contraseña es obligatoria.</span>
+                <span *ngIf="passwordControl.errors?.['minlength']">Debe tener al menos 8 caracteres.</span>
+              </div>
+            </div>
+            <div id="passwordHelp" class="form-text">Mínimo 8 caracteres.</div>
+          </div>
+
+          <div class="col-12">
+            <h2 class="section-title">Ubicación</h2>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label for="regionSelect" class="form-label">Región</label>
+            <select
+              id="regionSelect"
+              class="form-select"
+              formControlName="regions"
+              aria-describedby="regionError"
+              [attr.aria-invalid]="regionControl.touched && regionControl.invalid"
+              [class.is-invalid]="regionControl.touched && regionControl.invalid"
+            >
+              <option [ngValue]="null">Selecciona una región</option>
+              <option *ngFor="let region of regions" [ngValue]="region.id">{{ region.name }}</option>
+            </select>
+            <div *ngIf="regionControl.touched && regionControl.invalid" id="regionError" class="invalid-feedback">
+              La región es obligatoria.
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label for="inputCity" class="form-label">Ciudad</label>
+            <input
+              formControlName="city"
+              type="text"
+              class="form-control"
+              id="inputCity"
+              placeholder="Ej: Santiago"
+              autocomplete="address-level2"
+              aria-describedby="cityError"
+              [attr.aria-invalid]="cityControl.touched && cityControl.invalid"
+              [class.is-invalid]="cityControl.touched && cityControl.invalid"
+            />
+            <div *ngIf="cityControl.touched && cityControl.invalid" id="cityError" class="invalid-feedback">
+              La ciudad es obligatoria.
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label for="inputZip" class="form-label">Código postal</label>
+            <input
+              type="text"
+              class="form-control"
+              id="inputZip"
+              formControlName="zip"
+              placeholder="Ej: 8320000"
+              inputmode="numeric"
+              maxlength="7"
+              autocomplete="postal-code"
+              aria-describedby="zipHelp zipError"
+              [attr.aria-invalid]="zipControl.touched && zipControl.invalid"
+              [class.is-invalid]="zipControl.touched && zipControl.invalid"
+            />
+            <div id="zipHelp" class="form-text">Ingresa entre 5 y 7 dígitos.</div>
+            <div *ngIf="zipControl.touched && zipControl.invalid" id="zipError" class="invalid-feedback">
+              <span *ngIf="zipControl.errors?.['required']">El código postal es obligatorio.</span>
+              <span *ngIf="zipControl.errors?.['pattern']">Debe contener solo números, entre 5 y 7 dígitos.</span>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <h2 class="section-title">Direcciones</h2>
+            <p class="section-help">Agrega al menos una dirección asociada al usuario.</p>
+
+            <div
+              *ngFor="let addressFormGroup of addresesFormArray.controls; let i = index"
+              class="address-item"
+              [formGroup]="addressFormGroup"
+            >
+              <label [for]="'inputAddress' + i" class="form-label">Dirección {{ i + 1 }}</label>
+              <div class="input-group has-validation">
                 <input
-                  formControlName="birthDate"
-                  type="date"
-                  class="form-control"
-                  id="inputBirthDate"
-                  [class.is-invalid]="birthDateControl.touched && birthDateControl.invalid"
-                />
-                <div *ngIf="birthDateControl.touched && birthDateControl.invalid" class="invalid-feedback">
-                  La fecha de nacimiento es requerida
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <label for="inputEmail4" class="form-label">Email</label>
-                <input
-                  formControlName="email"
-                  type="email"
-                  class="form-control"
-                  id="inputEmail4"
-                  [class.is-invalid]="emailControl.touched && emailControl.invalid"
-                />
-                <div *ngIf="emailControl.touched && emailControl.invalid" class="invalid-feedback">
-                  <span *ngIf="emailControl.errors?.['required']">El email es requerido</span>
-                  <span *ngIf="emailControl.errors?.['email']">Ingresa un email válido</span>
-                </div>
-              </div>
-              
-              <div class="col-md-6"> 
-                <label for="regionSelect" class="form-label">Región</label>
-                <select 
-                  id="regionSelect" 
-                  class="form-select" 
-                  formControlName="regions"
-                  [class.is-invalid]="regionControl.touched && regionControl.invalid"
-                >
-                  <option [ngValue]="null">Seleccionar Región</option>
-                  <option *ngFor="let region of regions" [ngValue]="region.id">{{ region.name }}</option>
-                </select>
-                <div *ngIf="regionControl.touched && regionControl.invalid" class="invalid-feedback">
-                  La región es requerida
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <label for="inputPassword4" class="form-label">Contraseña</label>
-                <input 
-                  formControlName="password"
-                  type="password" 
-                  class="form-control" 
-                  id="inputPassword4"
-                  [class.is-invalid]="passwordControl.touched && passwordControl.invalid"
-                />
-                <div *ngIf="passwordControl.touched && passwordControl.invalid" class="invalid-feedback">
-                  La contraseña es requerida
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <label for="inputCity" class="form-label">Ciudad</label>
-                <input
-                  formControlName="city"
+                  formControlName="address"
                   type="text"
                   class="form-control"
-                  [class.is-invalid]="cityControl.touched && cityControl.invalid"
-                  id="inputCity"
+                  [id]="'inputAddress' + i"
+                  placeholder="Ej: Av. Libertador 1234"
+                  autocomplete="street-address"
+                  [attr.aria-describedby]="'addressError' + i"
+                  [attr.aria-invalid]="addressFormGroup.controls.address.touched && addressFormGroup.controls.address.invalid"
+                  [class.is-invalid]="addressFormGroup.controls.address.touched && addressFormGroup.controls.address.invalid"
                 />
-                <div *ngIf="cityControl.touched && cityControl.invalid" class="invalid-feedback">
-                  La ciudad es requerida
+                <button
+                  *ngIf="i > 0"
+                  (click)="deleteFormGroupFromAddressesFormArray(i)"
+                  class="btn btn-outline-danger"
+                  type="button"
+                  [attr.aria-label]="'Eliminar dirección ' + (i + 1)"
+                >
+                  Eliminar
+                </button>
+                <div *ngIf="addressFormGroup.controls.address.touched && addressFormGroup.controls.address.invalid" [id]="'addressError' + i" class="invalid-feedback">
+                  La dirección es obligatoria.
                 </div>
               </div>
+            </div>
 
-              <div class="col-6">
-                <label for="inputZip" class="form-label">Código Postal</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="inputZip" 
-                  formControlName="zip"
-                  [class.is-invalid]="zipControl.touched && zipControl.invalid"
-                />
-                <div *ngIf="zipControl.touched && zipControl.invalid" class="invalid-feedback">
-                  <span *ngIf="zipControl.errors?.['required']">El código postal es requerido</span>
-                  <span *ngIf="zipControl.errors?.['pattern']">Debe ser un código de 5 dígitos</span>
-                </div>
-              </div>
-              
-              
-           
-
-              <div class="col-12">
-                <div class="mb-3">
-                  <label for="inputAddress" class="form-label">Direcciones</label>
-                  <div
-                    *ngFor="let addressFormGroup of addresesFormArray.controls; let i = index"
-                    class="input-group mb-3"
-                  >
-                    <ng-container [formGroup]="addressFormGroup">
-                      <input
-                        formControlName="address"
-                        type="text"
-                        class="form-control"
-                        [class.is-invalid]="addressFormGroup.controls.address.touched && addressFormGroup.controls.address.invalid"
-                        placeholder="Ej: Av. Libertador 1234"
-                      />
-                      <button *ngIf="i > 0" (click)="deleteFormGroupFromAddressesFormArray(i)" class="btn btn-danger" type="button" title="Eliminar dirección">×</button>
-                      <div *ngIf="addressFormGroup.controls.address.touched && addressFormGroup.controls.address.invalid" class="invalid-feedback">
-                        La dirección es requerida
-                      </div>
-                    </ng-container>
-                  </div>
-                </div>
-                <div class="d-grid gap-2">
-                  <button (click)="addAddressControl()" class="btn btn-secondary" type="button">
-                    + Agregar dirección
-                  </button>
-                </div>
-              </div>
-
-    
-              <div class="col-12">
-                <button type="submit" class="btn btn-primary">Enviar</button>
-              </div>
-            </form>
-            <!-- <div class="col-4">
-              <h5>Valor</h5>
-              <pre>{{ userModel.value | json }}</pre>
-            </div> -->
+            <button (click)="addAddressControl()" class="btn btn-outline-primary w-100" type="button">
+              + Agregar otra dirección
+            </button>
           </div>
-        </div>
+
+          <div class="col-12 form-actions">
+            <button type="submit" class="btn btn-primary btn-lg" [disabled]="userModel.invalid">
+              Enviar formulario
+            </button>
+            <span class="form-status" aria-live="polite">
+              {{ userModel.invalid ? 'Completa los campos obligatorios para enviar.' : 'Formulario listo para enviar.' }}
+            </span>
+          </div>
+        </form>
       </div>
-    </div>
+    </section>
   </div>
 </div>
