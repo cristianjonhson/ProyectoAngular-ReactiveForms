@@ -35,25 +35,30 @@
 
           <div class="col-12 col-md-6">
             <label for="inputBirthDate" class="form-label">Fecha de nacimiento</label>
-            <mat-form-field
-              appearance="outline"
-              class="date-field w-100"
-              [class.date-field-invalid]="birthDateControl.touched && birthDateControl.invalid"
-            >
+            <div class="input-group has-validation date-input-group">
               <input
                 matInput
                 formControlName="birthDate"
+                class="form-control"
                 id="inputBirthDate"
                 [matDatepicker]="birthDatePicker"
                 [max]="maxBirthDate"
                 aria-describedby="birthDateError"
                 [attr.aria-invalid]="birthDateControl.touched && birthDateControl.invalid"
+                [class.is-invalid]="birthDateControl.touched && birthDateControl.invalid"
               />
-              <mat-datepicker-toggle matIconSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                (click)="birthDatePicker.open()"
+                aria-label="Abrir calendario de fecha de nacimiento"
+              >
+                Calendario
+              </button>
               <mat-datepicker #birthDatePicker></mat-datepicker>
-            </mat-form-field>
-            <div *ngIf="birthDateControl.touched && birthDateControl.invalid" id="birthDateError" class="invalid-feedback date-error">
-              La fecha de nacimiento es obligatoria.
+              <div *ngIf="birthDateControl.touched && birthDateControl.invalid" id="birthDateError" class="invalid-feedback date-error">
+                La fecha de nacimiento es obligatoria.
+              </div>
             </div>
           </div>
 
