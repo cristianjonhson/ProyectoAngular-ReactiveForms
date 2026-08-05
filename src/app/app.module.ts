@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { UsersModule } from './modules/users/users.module';
@@ -10,6 +11,7 @@ import { UsersModule } from './modules/users/users.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     UsersModule
   ],
   providers: [],
