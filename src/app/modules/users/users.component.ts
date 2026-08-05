@@ -42,7 +42,7 @@ interface City {
 })
 export class UsersComponent  {
 
-  maxBirthDate = new Date().toISOString().split('T')[0];
+  maxBirthDate = this.formatDateForInput(new Date());
   showPassword = false;
 
   regions: Region[] = [
@@ -149,6 +149,17 @@ export class UsersComponent  {
     this.showPassword = !this.showPassword;
   }
 
+  openDatePicker(input: HTMLInputElement): void {
+    const dateInput = input as HTMLInputElement & { showPicker?: () => void };
+
+    if (dateInput.showPicker) {
+      dateInput.showPicker();
+      return;
+    }
+
+    dateInput.focus();
+  }
+
   onSubmit(): void {
     if (this.userModel.valid) {
       console.log('Formulario enviado:', this.userModel.value);
@@ -193,5 +204,13 @@ export class UsersComponent  {
         });
       }
     });
+  }
+
+  private formatDateForInput(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
   }
 }
