@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
@@ -11,13 +11,17 @@ interface UserModel {
   city: FormControl<string | null>;
   zip: FormControl<string | null>;
   fullName: FormControl<string | null>;
-  birthDate: FormControl<Date | null>;
+  birthDate: FormControl<string | null>;
   regions: FormControl<number | null>;
   addresses: FormArray<FormGroup<AddressFormGroup>>;
 }
 
 function nameValidator(control: AbstractControl): ValidationErrors | null {
-  const regex = /^[a-zA-Z\s]+$/;
+  if (!control.value) {
+    return null;
+  }
+
+  const regex = /^[a-zA-ZÀ-ÿÑñ\s]+$/;
   const valid = regex.test(control.value);
   return valid ? null : { invalidName: true };
 }
@@ -37,6 +41,9 @@ interface City {
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent  {
+
+  maxBirthDate = new Date().toISOString().split('T')[0];
+  showPassword = false;
 
   regions: Region[] = [
     { id: 15, name: 'Arica y Parinacota' },
@@ -63,11 +70,11 @@ export class UsersComponent  {
    * Se vinculan directamente con los inputs, selects, textareas del html
    */
   emailControl = new FormControl('', [Validators.required, Validators.email]);
-  passwordControl = new FormControl('', [Validators.required]);
+  passwordControl = new FormControl('', [Validators.required, Validators.minLength(8)]);
   cityControl = new FormControl('', [Validators.required]);
   fullNameControl = new FormControl('', [Validators.required, nameValidator]);
-  zipControl = new FormControl('', [Validators.required, Validators.pattern('[0-9]{5}')]);
-  birthDateControl = new FormControl<Date | null>(null, [Validators.required]);
+  zipControl = new FormControl('', [Validators.required, Validators.pattern('[0-9]{5,7}')]);
+  birthDateControl = new FormControl<string | null>(null, [Validators.required]);
   regionControl = new FormControl<number | null>(null, [Validators.required]);
 
   
@@ -138,15 +145,19 @@ export class UsersComponent  {
     this.addresesFormArray.removeAt(index);
   }
 
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
   onSubmit(): void {
     if (this.userModel.valid) {
       console.log('Formulario enviado:', this.userModel.value);
       Swal.fire({
         icon: 'success',
-        title: '¡Éxito!',
-        text: 'Formulario enviado exitosamente. Revisa la consola para ver los datos.',
+        title: 'Usuario registrado',
+        text: 'El formulario se envió correctamente.',
         confirmButtonText: 'Aceptar',
-        confirmButtonColor: '#28a745'
+        confirmButtonColor: '#2563eb'
       });
     } else {
       // Marcar todos los campos como touched para mostrar los errores
