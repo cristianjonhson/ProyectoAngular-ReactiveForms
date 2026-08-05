@@ -94,13 +94,13 @@ El componente `UsersComponent` usa:
 ### Prerrequisitos
 
 - Node.js compatible con Angular 16.
-- npm.
+- pnpm.
 - Angular CLI 16.x.
 
 ### Pasos
 
 ```bash
-npm install
+pnpm install
 ```
 
 ## Comandos Disponibles
@@ -108,7 +108,7 @@ npm install
 ### Desarrollo
 
 ```bash
-npm start
+pnpm start
 ```
 
 La aplicacion queda disponible en `http://localhost:4200/`.
@@ -116,7 +116,7 @@ La aplicacion queda disponible en `http://localhost:4200/`.
 ### Build
 
 ```bash
-npm run build
+pnpm build
 ```
 
 El build compila correctamente. Actualmente puede mostrar advertencias por:
@@ -127,18 +127,18 @@ El build compila correctamente. Actualmente puede mostrar advertencias por:
 ### Tests
 
 ```bash
-npm test
+pnpm test
 ```
 
 El proyecto tiene configuracion de Karma/Jasmine y un spec basico para `UsersComponent`, pero la ejecucion actual requiere corregir la dependencia/configuracion de coverage porque `karma.conf.js` referencia `karma-coverage` y esa dependencia no esta instalada en `package.json`.
 
 ### Lint y E2E
 
-Los scripts `npm run lint` y `npm run e2e` existen en `package.json`, pero actualmente no hay targets `lint` ni `e2e` configurados en `angular.json`. Para usarlos se debe agregar una herramienta como Angular ESLint, Cypress, Nightwatch o WebdriverIO.
+Los scripts `pnpm lint` y `pnpm e2e` existen en `package.json`, pero actualmente no hay targets `lint` ni `e2e` configurados en `angular.json`. Para usarlos se debe agregar una herramienta como Angular ESLint, Cypress, Nightwatch o WebdriverIO.
 
 ## Uso
 
-1. Ejecuta `npm start`.
+1. Ejecuta `pnpm start`.
 2. Abre `http://localhost:4200/`.
 3. Completa el formulario de usuario.
 4. Agrega o elimina direcciones con el boton `+ Agregar direccion` y el boton de eliminacion.
