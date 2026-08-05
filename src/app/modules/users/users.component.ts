@@ -11,7 +11,7 @@ interface UserModel {
   city: FormControl<string | null>;
   zip: FormControl<string | null>;
   fullName: FormControl<string | null>;
-  birthDate: FormControl<string | null>;
+  birthDate: FormControl<Date | null>;
   regions: FormControl<number | null>;
   addresses: FormArray<FormGroup<AddressFormGroup>>;
 }
@@ -42,7 +42,7 @@ interface City {
 })
 export class UsersComponent  {
 
-  maxBirthDate = new Date().toISOString().split('T')[0];
+  maxBirthDate = new Date();
   showPassword = false;
 
   regions: Region[] = [
@@ -74,7 +74,7 @@ export class UsersComponent  {
   cityControl = new FormControl('', [Validators.required]);
   fullNameControl = new FormControl('', [Validators.required, nameValidator]);
   zipControl = new FormControl('', [Validators.required, Validators.pattern('[0-9]{5,7}')]);
-  birthDateControl = new FormControl<string | null>(null, [Validators.required]);
+  birthDateControl = new FormControl<Date | null>(null, [Validators.required]);
   regionControl = new FormControl<number | null>(null, [Validators.required]);
 
   
