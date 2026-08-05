@@ -51,13 +51,13 @@ h1 {
   border-radius: 0.8rem;
 }
 
-.date-field {
+.date-error {
   display: block;
 }
 
-.date-error {
-  display: block;
-  margin-top: 0.25rem;
+.date-input-group .btn {
+  border-bottom-right-radius: 0.8rem;
+  border-top-right-radius: 0.8rem;
 }
 
 .address-item {
